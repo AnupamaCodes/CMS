@@ -1,0 +1,53 @@
+<%- include('layout/header') %>
+<div class="container">
+    <div class="row my-4"><!-- Starts a row with margin at the top and bottom. -->
+        <div class="col-lg-12">
+            <!-- Display alert message -->
+            <% if (message) { %> <!--If there is, it displays an alert with a message and style based on the type of message (success, error, etc.)-->
+                <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <strong><%= message.message %></strong>
+                </div>
+            <% } %>
+
+            <!-- Display user table -->
+            <div class="table-responsive"> <!-- Makes the table responsive on smaller screens.-->
+                <% if (users.length != '') { %> <!-- Checks if there are users in the array. If there are, it displays the table; otherwise, it displays a message indicating no users are found.-->
+                    <table class="table table text-center my-3"> <!--Defines a table with striped rows and centered text.-->
+                        <thead> <!--Table Header (<thead>) contains columns: ID, Image, Name, Email, Phone, and Action.-->
+                            <tr class="table-dark">
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>E-mail</th>
+                                <th>Phone</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody> <!--iterates through each user in the users array and displays their details in a row.-->
+                            <% users.forEach((user, index) => { %> <!-- Loops through each user in the users array. For each user, it generates a table row with user details.-->
+                                <tr class="align-middle">
+                                
+                                    <td><%= index + 1 %></td>
+                                    <td><img src="/uploads/<%= user.image %>" width="50" class="img-thumbnail" alt=""></td>
+                                    <td><%= user.name %></td>
+                                    <td><%= user.email %></td>
+                                    <td><%= user.phone %></td>
+                                    <td>
+                                        <!-- Edit icon Links to the edit route for the specific user (/edit/:id). -->
+                                        <a href="/edit/<%=user._id%>" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
+                                        <!-- Delete icon -->
+                                        <a href="/delete/<%=user._id%>" class="text-danger"><i class="fas fa-trash fa-lg mx-1"></i></a>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <h1 class="text-center text-secondary mt-5">No users found in the database!</h1> <!--else  it displays a message indicating so-->
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('layout/footer') %>
